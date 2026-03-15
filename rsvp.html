@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RSVP – Zorina's Birthday 🎂</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #0a0a1a;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    canvas#stars {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+
+    .page {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh; padding: 40px 20px;
+    }
+
+    /* Card */
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 48px 52px;
+      width: 100%; max-width: 520px;
+      animation: fadeUp 0.8s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-header { text-align: center; margin-bottom: 36px; }
+    .card-header .icon { font-size: 52px; margin-bottom: 12px; display: block; }
+    .card-header h1 {
+      font-size: 32px; font-style: italic; color: #fff;
+      text-shadow: 0 0 30px rgba(255,110,199,0.6);
+      margin-bottom: 6px;
+    }
+    .card-header p { font-size: 14px; color: #94a3b8; letter-spacing: 1px; }
+
+    /* Deadline badge */
+    .deadline {
+      display: inline-block;
+      background: rgba(255,110,199,0.12);
+      border: 1px solid rgba(255,110,199,0.3);
+      color: #f9a8d4; font-size: 13px; letter-spacing: 1px;
+      padding: 6px 16px; border-radius: 20px; margin-top: 12px;
+    }
+
+    /* Form fields */
+    .field { margin-bottom: 22px; }
+    label {
+      display: block; font-size: 11px; letter-spacing: 3px;
+      text-transform: uppercase; color: #a78bfa; margin-bottom: 8px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"] {
+      width: 100%; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px; padding: 12px 16px;
+      color: #fff; font-size: 16px; font-family: inherit;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus {
+      border-color: rgba(167,139,250,0.6);
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.15);
+    }
+    input::placeholder { color: rgba(255,255,255,0.25); }
+
+    /* Radio group */
+    .radio-group { display: flex; gap: 12px; }
+    .radio-opt {
+      flex: 1; position: relative;
+    }
+    .radio-opt input[type="radio"] { display: none; }
+    .radio-opt label {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; cursor: pointer;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px; padding: 12px;
+      font-size: 15px; letter-spacing: 0.5px;
+      text-transform: none; color: #94a3b8;
+      transition: all 0.2s;
+    }
+    .radio-opt input[type="radio"]:checked + label {
+      border-color: rgba(167,139,250,0.7);
+      background: rgba(167,139,250,0.15);
+      color: #fff; box-shadow: 0 0 0 3px rgba(167,139,250,0.12);
+    }
+    .radio-opt.yes input[type="radio"]:checked + label {
+      border-color: rgba(52,211,153,0.7);
+      background: rgba(52,211,153,0.12);
+      box-shadow: 0 0 0 3px rgba(52,211,153,0.1);
+    }
+    .radio-opt.no input[type="radio"]:checked + label {
+      border-color: rgba(248,113,113,0.7);
+      background: rgba(248,113,113,0.12);
+      box-shadow: 0 0 0 3px rgba(248,113,113,0.1);
+    }
+
+    /* Group size (hidden until "yes" selected) */
+    #group-field {
+      overflow: hidden; max-height: 0;
+      transition: max-height 0.35s ease, opacity 0.35s ease;
+      opacity: 0;
+    }
+    #group-field.visible { max-height: 120px; opacity: 1; }
+
+    input[type="number"]::-webkit-inner-spin-button { opacity: 1; }
+
+    /* Submit button */
+    .btn {
+      width: 100%; margin-top: 8px;
+      background: linear-gradient(135deg, #ff6ec7, #a78bfa);
+      border: none; color: #fff;
+      font-size: 17px; font-family: inherit;
+      padding: 16px; border-radius: 50px;
+      cursor: pointer; letter-spacing: 1px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 28px rgba(167,139,250,0.35);
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(255,110,199,0.4); }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Thank-you state */
+    .thankyou {
+      display: none; text-align: center; padding: 20px 0;
+      animation: fadeUp 0.6s ease both;
+    }
+    .thankyou .big-icon { font-size: 64px; margin-bottom: 16px; display: block; }
+    .thankyou h2 { font-size: 28px; color: #fff; margin-bottom: 10px; }
+    .thankyou p  { font-size: 15px; color: #94a3b8; line-height: 1.7; }
+
+    /* Error */
+    .error-msg {
+      display: none; color: #f87171; font-size: 13px;
+      margin-top: 10px; text-align: center;
+    }
+
+    /* Back link */
+    .back {
+      margin-top: 24px;
+      font-size: 13px; color: rgba(255,255,255,0.3);
+      text-decoration: none; letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .back:hover { color: #c4b5fd; }
+
+    @media (max-width: 560px) {
+      .card { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="page">
+  <div class="card">
+
+    <!-- Header -->
+    <div class="card-header">
+      <span class="icon">🎂</span>
+      <h1>Zorina's Birthday</h1>
+      <p>Saturday, April 25 · 2:00–4:00 PM<br/>Stepping Stones Museum, Norwalk CT</p>
+      <span class="deadline">📅 RSVP by April 22</span>
+    </div>
+
+    <!-- Form -->
+    <form id="rsvp-form">
+
+      <div class="field">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="Full name" required />
+      </div>
+
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      </div>
+
+      <div class="field">
+        <label>Will you attend?</label>
+        <div class="radio-group">
+          <div class="radio-opt yes">
+            <input type="radio" id="yes" name="attending" value="Yes" required />
+            <label for="yes">✅ Yes, I'll be there!</label>
+          </div>
+          <div class="radio-opt no">
+            <input type="radio" id="no" name="attending" value="No" />
+            <label for="no">😔 Sorry, can't make it</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field" id="group-field">
+        <label for="group">Number of guests (including you)</label>
+        <input type="number" id="group" name="group_size"
+               min="1" max="10" placeholder="e.g. 2" />
+      </div>
+
+      <button type="submit" class="btn" id="submit-btn">🎉 Send My RSVP</button>
+      <div class="error-msg" id="error-msg">Something went wrong. Please try again.</div>
+    </form>
+
+    <!-- Thank-you (shown after submit) -->
+    <div class="thankyou" id="thankyou">
+      <span class="big-icon" id="thankyou-icon">🎉</span>
+      <h2 id="thankyou-title">See you there!</h2>
+      <p id="thankyou-msg">
+        Thanks for your RSVP! We can't wait to celebrate<br/>
+        with you on April 25. 🎂
+      </p>
+    </div>
+
+  </div>
+
+  <a href="index.html" class="back">← Back to Zorina's Birthday Page</a>
+</div>
+
+<script>
+  /* ── Starfield (same as main page) ── */
+  (function () {
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    function init() {
+      stars = [];
+      for (let i = 0; i < 160; i++) stars.push({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        r: Math.random() * 1.5 + 0.3, o: Math.random(), d: (Math.random() - 0.5) * 0.005
+      });
+    }
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(s => {
+        s.o += s.d; if (s.o > 1 || s.o < 0.1) s.d *= -1;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${s.o})`; ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    resize(); init(); draw();
+    window.addEventListener('resize', () => { resize(); init(); });
+  })();
+
+  /* ── Show / hide group size ── */
+  document.querySelectorAll('input[name="attending"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const field = document.getElementById('group-field');
+      const groupInput = document.getElementById('group');
+      if (radio.value === 'Yes') {
+        field.classList.add('visible');
+        groupInput.required = true;
+      } else {
+        field.classList.remove('visible');
+        groupInput.required = false;
+        groupInput.value = '';
+      }
+    });
+  });
+
+  /* ── Form submit via Formspree ── */
+  const form    = document.getElementById('rsvp-form');
+  const btn     = document.getElementById('submit-btn');
+  const errMsg  = document.getElementById('error-msg');
+  const thankyou = document.getElementById('thankyou');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    errMsg.style.display = 'none';
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch('https://formspree.io/f/FORMSPREE_ID', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        const attending = data.get('attending') === 'Yes';
+        form.style.display = 'none';
+        thankyou.style.display = 'block';
+        if (!attending) {
+          document.getElementById('thankyou-icon').textContent = '💌';
+          document.getElementById('thankyou-title').textContent = 'Thanks for letting us know!';
+          document.getElementById('thankyou-msg').innerHTML =
+            'We\'ll miss you! Wishing you all the best. 💖';
+        }
+      } else {
+        throw new Error('server error');
+      }
+    } catch {
+      btn.disabled = false;
+      btn.textContent = '🎉 Send My RSVP';
+      errMsg.style.display = 'block';
+    }
+  });
+</script>
+
+</body>
+</html>

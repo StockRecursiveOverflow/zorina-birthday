@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're Invited to Zorina's Birthday! 🎂</title>
+  <style>
+    /* Animation support for Gmail & Apple Mail */
+    @keyframes shimmer {
+      0%,100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cake-emoji {
+      display: inline-block;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .header-title {
+      background: linear-gradient(135deg, #ff6ec7, #ffcc00, #a78bfa, #38bdf8);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s ease infinite;
+    }
+    @media only screen and (max-width: 600px) {
+      .email-wrapper { width: 100% !important; }
+      .header-title  { font-size: 36px !important; }
+      .name-title    { font-size: 28px !important; }
+      .detail-cell   { display: block !important; width: 100% !important; padding: 8px 0 !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background:#0a0a1a;font-family:Georgia,serif;">
+
+  <!-- Outer wrapper -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+         style="background:linear-gradient(160deg,#0a0a1a 0%,#12003a 50%,#0a0a1a 100%);min-height:100%;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+
+        <!-- Card -->
+        <table class="email-wrapper" width="600" cellpadding="0" cellspacing="0" border="0"
+               style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);
+                      border-radius:24px;overflow:hidden;box-shadow:0 24px 80px rgba(167,139,250,0.2);">
+
+          <!-- ── TOP BANNER ── -->
+          <tr>
+            <td align="center"
+                style="background:linear-gradient(135deg,#2d0a4e,#1a0533,#0d1f4a);
+                       padding:50px 40px 40px;border-bottom:1px solid rgba(255,255,255,0.08);">
+
+              <!-- Stars row (decorative) -->
+              <div style="font-size:18px;letter-spacing:12px;color:rgba(255,255,255,0.35);
+                          margin-bottom:20px;">★ ✦ ★ ✦ ★ ✦ ★</div>
+
+              <!-- You're Invited -->
+              <div style="font-size:13px;letter-spacing:6px;text-transform:uppercase;
+                          color:#ffcc80;margin-bottom:14px;">✨ You're Invited ✨</div>
+
+              <!-- Main title -->
+              <div class="header-title"
+                   style="font-size:52px;font-weight:bold;line-height:1.1;
+                          background:linear-gradient(135deg,#ff6ec7,#ffcc00,#a78bfa,#38bdf8);
+                          -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+                          background-clip:text;margin-bottom:8px;">
+                Happy Birthday
+              </div>
+
+              <!-- Name -->
+              <div class="name-title"
+                   style="font-size:42px;font-style:italic;color:#fff;
+                          text-shadow:0 0 30px rgba(255,110,199,0.7);margin-bottom:20px;">
+                Zorina Wen
+              </div>
+
+              <!-- Cake -->
+              <div class="cake-emoji" style="font-size:72px;display:inline-block;
+                          filter:drop-shadow(0 0 16px rgba(255,200,100,0.6));">🎂</div>
+
+              <!-- Tagline -->
+              <div style="margin-top:20px;font-size:15px;color:#c4b5fd;letter-spacing:2px;">
+                Come celebrate with us! 🌙
+              </div>
+            </td>
+          </tr>
+
+          <!-- ── PERSONAL GREETING ── -->
+          <tr>
+            <td style="padding:36px 48px 24px;">
+              <p style="font-size:17px;color:#e2e8f0;line-height:1.85;margin:0;">
+                Dear <strong style="color:#fde68a;">{{NAME}}</strong>,
+              </p>
+              <p style="font-size:17px;color:#e2e8f0;line-height:1.85;margin:16px 0 0;">
+                We would love to have you join us as we celebrate
+                <strong style="color:#fde68a;">Zorina's</strong> special day!
+                Come make wonderful memories, share lots of laughter,
+                and help us shower her with all the love she deserves. 💖
+              </p>
+            </td>
+          </tr>
+
+          <!-- ── PARTY DETAILS CARD ── -->
+          <tr>
+            <td style="padding:8px 48px 32px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.25);
+                            border-radius:16px;overflow:hidden;">
+
+                <!-- Section header -->
+                <tr>
+                  <td colspan="2" align="center"
+                      style="padding:18px 24px 14px;
+                             border-bottom:1px solid rgba(255,255,255,0.08);">
+                    <span style="font-size:11px;letter-spacing:5px;text-transform:uppercase;
+                                 color:#a78bfa;">Party Details</span>
+                  </td>
+                </tr>
+
+                <!-- Date -->
+                <tr>
+                  <td class="detail-cell"
+                      style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.06);
+                             width:50%;vertical-align:top;">
+                    <div style="font-size:22px;margin-bottom:6px;">📅</div>
+                    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;
+                                color:#a78bfa;margin-bottom:4px;">Date</div>
+                    <div style="font-size:18px;font-weight:bold;color:#fff;">Saturday</div>
+                    <div style="font-size:16px;color:#fde68a;">April 25, 2026</div>
+                  </td>
+
+                  <!-- Time -->
+                  <td class="detail-cell"
+                      style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.06);
+                             border-left:1px solid rgba(255,255,255,0.06);
+                             width:50%;vertical-align:top;">
+                    <div style="font-size:22px;margin-bottom:6px;">⏰</div>
+                    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;
+                                color:#a78bfa;margin-bottom:4px;">Time</div>
+                    <div style="font-size:18px;font-weight:bold;color:#fff;">2:00 – 4:00 PM</div>
+                    <div style="font-size:14px;color:#94a3b8;">Eastern Time</div>
+                  </td>
+                </tr>
+
+                <!-- Location -->
+                <tr>
+                  <td colspan="2" style="padding:18px 24px;">
+                    <div style="font-size:22px;margin-bottom:6px;">📍</div>
+                    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;
+                                color:#a78bfa;margin-bottom:4px;">Location</div>
+                    <div style="font-size:18px;font-weight:bold;color:#fff;">Stepping Stones Museum</div>
+                    <div style="font-size:15px;color:#fde68a;margin-top:2px;">303 West Ave, Norwalk, CT 06850</div>
+                    <div style="margin-top:12px;">
+                      <a href="https://maps.google.com/?q=Stepping+Stones+Museum+303+West+Ave+Norwalk+CT"
+                         style="display:inline-block;background:rgba(167,139,250,0.2);
+                                border:1px solid rgba(167,139,250,0.4);color:#c4b5fd;
+                                text-decoration:none;font-size:13px;letter-spacing:1px;
+                                padding:8px 18px;border-radius:20px;">
+                        🗺 View on Google Maps
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── RSVP SECTION ── -->
+          <tr>
+            <td align="center" style="padding:8px 48px 40px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="background:linear-gradient(135deg,rgba(255,110,199,0.12),rgba(167,139,250,0.12));
+                            border:1px solid rgba(255,110,199,0.3);border-radius:16px;">
+                <tr>
+                  <td align="center" style="padding:28px 24px;">
+                    <div style="font-size:26px;margin-bottom:8px;">💌</div>
+                    <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;
+                                color:#f9a8d4;margin-bottom:8px;">Please RSVP by</div>
+                    <div style="font-size:24px;font-weight:bold;color:#fff;margin-bottom:4px;">
+                      Wednesday, April 22
+                    </div>
+                    <div style="font-size:14px;color:#94a3b8;margin-bottom:20px;">
+                      So we can make sure everything is perfect!
+                    </div>
+                    <a href="https://stockrecursiveoverflow.github.io/zorina-birthday/rsvp.html"
+                       style="display:inline-block;
+                              background:linear-gradient(135deg,#ff6ec7,#a78bfa);
+                              color:#fff;text-decoration:none;font-size:16px;
+                              font-family:Georgia,serif;letter-spacing:1px;
+                              padding:14px 36px;border-radius:50px;
+                              box-shadow:0 8px 24px rgba(255,110,199,0.35);">
+                      🎉 RSVP Now
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── FOOTER MESSAGE ── -->
+          <tr>
+            <td align="center"
+                style="padding:32px 48px 40px;
+                       border-top:1px solid rgba(255,255,255,0.06);">
+              <div style="font-size:22px;letter-spacing:10px;color:rgba(255,255,255,0.2);
+                          margin-bottom:16px;">🌸 ⭐ 🦋 🌈 💫 🎀</div>
+              <p style="font-size:15px;color:#94a3b8;line-height:1.8;margin:0;">
+                We can't wait to celebrate with you!<br/>
+                <span style="color:#c4b5fd;font-style:italic;">— With love, Zorina's family 💖</span>
+              </p>
+            </td>
+          </tr>
+
+          <!-- ── BOTTOM BAR ── -->
+          <tr>
+            <td align="center"
+                style="background:rgba(0,0,0,0.3);padding:14px;
+                       border-top:1px solid rgba(255,255,255,0.05);">
+              <div style="font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:2px;">
+                Made with love · Zorina's Birthday 2026
+              </div>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /Card -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
