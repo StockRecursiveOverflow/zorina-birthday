@@ -267,6 +267,27 @@
       line-height: 1.7;
     }
 
+    /* Google Calendar button */
+    #gcal-btn {
+      display: inline-block;
+      margin-top: 24px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(167,139,250,0.4);
+      color: #c4b5fd;
+      text-decoration: none;
+      font-size: 15px;
+      font-family: inherit;
+      letter-spacing: 0.5px;
+      padding: 12px 28px;
+      border-radius: 50px;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    #gcal-btn:hover {
+      background: rgba(167,139,250,0.15);
+      box-shadow: 0 6px 20px rgba(167,139,250,0.25);
+      transform: translateY(-2px);
+    }
+
     /* Error */
     .error-msg {
       display: none;
@@ -357,6 +378,12 @@
           Thanks for your RSVP! We can't wait to celebrate<br />
           with you on April 25. 🎂
         </p>
+        <a id="gcal-btn"
+           href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Zorina%27s+Birthday+Party+%F0%9F%8E%82&dates=20260425T180000Z%2F20260425T200000Z&details=Come+celebrate+Zorina%27s+birthday!+We+can%27t+wait+to+see+you.+%F0%9F%8E%82&location=Stepping+Stones+Museum%2C+303+West+Ave%2C+Norwalk%2C+CT+06850"
+           target="_blank"
+           style="display:none;">
+          📅 Add to Google Calendar
+        </a>
       </div>
 
     </div>
@@ -432,7 +459,9 @@
           const attending = data.get('attending') === 'Yes';
           form.style.display = 'none';
           thankyou.style.display = 'block';
-          if (!attending) {
+          if (attending) {
+            document.getElementById('gcal-btn').style.display = 'inline-block';
+          } else {
             document.getElementById('thankyou-icon').textContent = '💌';
             document.getElementById('thankyou-title').textContent = 'Thanks for letting us know!';
             document.getElementById('thankyou-msg').innerHTML =
