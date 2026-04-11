@@ -1,32 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RSVP – Zorina's Birthday 🌸</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Georgia', serif;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
       background: linear-gradient(160deg, #f0fdf4 0%, #fdf4ff 50%, #f0f9ff 100%);
       color: #1a3a1a;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
+    /* Ambient color blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.16;
+    }
+    .blob-1 { width: 650px; height: 650px; background: #86efac; top: -180px; left: -160px; animation: blobMove1 28s ease-in-out infinite; }
+    .blob-2 { width: 480px; height: 480px; background: #fbb6ce; top: 35%; right: -120px; animation: blobMove2 34s ease-in-out infinite; }
+    .blob-3 { width: 420px; height: 420px; background: #bae6fd; bottom: -80px; left: 28%; animation: blobMove3 30s ease-in-out infinite; }
+    @keyframes blobMove1 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(55px,35px)} 66%{transform:translate(-35px,65px)} }
+    @keyframes blobMove2 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(-45px,-30px)} 66%{transform:translate(35px,-55px)} }
+    @keyframes blobMove3 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(-55px,-35px)} 66%{transform:translate(45px,-25px)} }
+
     canvas#petals {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 0;
       pointer-events: none;
     }
@@ -39,500 +52,490 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 40px 20px;
+      padding: 48px 20px;
     }
 
-    /* Card */
+    /* ── Card ── */
     .card {
-      background: rgba(255, 255, 255, 0.75);
-      border: 1px solid rgba(34, 197, 94, 0.22);
-      backdrop-filter: blur(16px);
-      border-radius: 24px;
+      position: relative;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(34,197,94,0.18);
+      backdrop-filter: blur(20px);
+      border-radius: 28px;
       padding: 48px 52px;
       width: 100%;
-      max-width: 520px;
+      max-width: 540px;
       animation: fadeUp 0.8s ease both;
-      box-shadow: 0 8px 40px rgba(34, 197, 94, 0.1);
+      box-shadow: 0 12px 50px rgba(34,197,94,0.1), 0 2px 8px rgba(0,0,0,0.04);
+      overflow: hidden;
     }
-
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #22c55e, #f472b6, #86efac, #38bdf8, #22c55e);
+      background-size: 200% 100%;
+      animation: shimmerBar 4s linear infinite;
+    }
+    @keyframes shimmerBar { 0%{background-position:0% 0} 100%{background-position:200% 0} }
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── Card header ── */
     .card-header {
       text-align: center;
-      margin-bottom: 36px;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(34,197,94,0.12);
     }
-
     .card-header .icon {
       font-size: 52px;
       margin-bottom: 12px;
       display: block;
     }
-
     .card-header h1 {
-      font-size: 32px;
+      font-family: 'Playfair Display', serif;
       font-style: italic;
+      font-weight: 400;
+      font-size: 30px;
       color: #166534;
-      text-shadow: 0 0 30px rgba(34, 197, 94, 0.2);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
-
-    .card-header p {
+    .card-header .meta {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
       font-size: 14px;
       color: #4b7a55;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
+      line-height: 1.7;
     }
-
-    /* Map link */
     .map-link {
       display: inline-block;
       margin-top: 10px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
       font-size: 13px;
       color: #16a34a;
       text-decoration: none;
-      letter-spacing: 0.5px;
-      padding: 5px 14px;
+      padding: 5px 16px;
       border-radius: 20px;
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      background: rgba(34, 197, 94, 0.07);
+      border: 1px solid rgba(34,197,94,0.3);
+      background: rgba(34,197,94,0.06);
       transition: background 0.2s, transform 0.2s;
     }
-    .map-link:hover {
-      background: rgba(34, 197, 94, 0.15);
-      transform: translateY(-1px);
-    }
-
-    /* Deadline badge */
+    .map-link:hover { background: rgba(34,197,94,0.14); transform: translateY(-1px); }
     .deadline {
       display: inline-block;
-      background: rgba(34, 197, 94, 0.1);
-      border: 1px solid rgba(34, 197, 94, 0.3);
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.25);
       color: #16a34a;
-      font-size: 13px;
-      letter-spacing: 1px;
-      padding: 6px 16px;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 18px;
       border-radius: 20px;
       margin-top: 12px;
     }
 
-    /* Form fields */
-    .field {
-      margin-bottom: 22px;
+    /* ── Party info ── */
+    .party-info {
+      background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(251,182,206,0.06));
+      border: 1px solid rgba(34,197,94,0.14);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 30px;
+    }
+    .party-info .intro {
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: #2d5a3d;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+    .party-info .schedule {
+      list-style: none;
+      margin: 0 0 14px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .party-info .schedule li {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      color: #2d5a3d;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .party-info .schedule li .icon { font-size: 16px; flex-shrink: 0; }
+    .party-info .outro {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: #4b7a55;
+      line-height: 1.6;
     }
 
+    /* ── Form ── */
+    .field { margin-bottom: 20px; }
     label {
       display: block;
-      font-size: 11px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 10px;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: #16a34a;
       margin-bottom: 8px;
     }
-
     input[type="text"],
     input[type="email"],
     input[type="number"] {
       width: 100%;
-      background: rgba(255, 255, 255, 0.85);
-      border: 1px solid rgba(34, 197, 94, 0.25);
-      border-radius: 10px;
-      padding: 12px 16px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(34,197,94,0.22);
+      border-radius: 12px;
+      padding: 13px 16px;
       color: #1a3a1a;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
       font-size: 16px;
-      font-family: inherit;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     }
-
     input:focus {
-      border-color: rgba(34, 197, 94, 0.6);
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.12);
+      border-color: rgba(34,197,94,0.55);
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.1);
+      background: #fff;
     }
+    input::placeholder { color: rgba(26,58,26,0.3); }
 
-    input::placeholder {
-      color: rgba(26, 58, 26, 0.35);
-    }
-
-    /* Radio group */
-    .radio-group {
-      display: flex;
-      gap: 12px;
-    }
-
-    .radio-opt {
-      flex: 1;
-      position: relative;
-    }
-
-    .radio-opt input[type="radio"] {
-      display: none;
-    }
-
+    /* ── Radio group ── */
+    .radio-group { display: flex; gap: 10px; }
+    .radio-opt { flex: 1; }
+    .radio-opt input[type="radio"] { display: none; }
     .radio-opt label {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 7px;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(34, 197, 94, 0.2);
-      border-radius: 10px;
-      padding: 12px;
-      font-size: 15px;
-      letter-spacing: 0.5px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(34,197,94,0.18);
+      border-radius: 12px;
+      padding: 13px 10px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 0;
       text-transform: none;
       color: #4b7a55;
       transition: all 0.2s;
     }
-
     .radio-opt input[type="radio"]:checked + label {
-      border-color: rgba(34, 197, 94, 0.7);
-      background: rgba(34, 197, 94, 0.1);
+      border-color: rgba(34,197,94,0.65);
+      background: rgba(34,197,94,0.09);
       color: #166534;
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.08);
     }
-
-    .radio-opt.yes input[type="radio"]:checked + label {
-      border-color: rgba(34, 197, 94, 0.7);
-      background: rgba(34, 197, 94, 0.12);
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
-    }
-
     .radio-opt.no input[type="radio"]:checked + label {
-      border-color: rgba(248, 113, 113, 0.7);
-      background: rgba(248, 113, 113, 0.08);
-      box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.08);
+      border-color: rgba(248,113,113,0.65);
+      background: rgba(248,113,113,0.07);
+      color: #991b1b;
+      box-shadow: 0 0 0 3px rgba(248,113,113,0.07);
     }
 
-    /* Group size (hidden until "yes" selected) */
+    /* ── Group size ── */
     #group-field {
       overflow: hidden;
       max-height: 0;
-      transition: max-height 0.35s ease, opacity 0.35s ease;
       opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.35s ease;
     }
+    #group-field.visible { max-height: 120px; opacity: 1; }
+    input[type="number"]::-webkit-inner-spin-button { opacity: 1; }
 
-    #group-field.visible {
-      max-height: 120px;
-      opacity: 1;
-    }
-
-    input[type="number"]::-webkit-inner-spin-button {
-      opacity: 1;
-    }
-
-    /* Submit button */
+    /* ── Submit button ── */
     .btn {
       width: 100%;
-      margin-top: 8px;
+      margin-top: 10px;
       background: linear-gradient(135deg, #22c55e, #86efac);
       border: none;
       color: #fff;
-      font-size: 17px;
-      font-family: inherit;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 1.5px;
       padding: 16px;
       border-radius: 50px;
       cursor: pointer;
-      letter-spacing: 1px;
       transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 8px 28px rgba(34, 197, 94, 0.3);
+      box-shadow: 0 8px 28px rgba(34,197,94,0.32);
     }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(34,197,94,0.45); }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(34, 197, 94, 0.45);
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Thank-you state */
+    /* ── Thank-you state ── */
     .thankyou {
       display: none;
       text-align: center;
       padding: 20px 0;
       animation: fadeUp 0.6s ease both;
     }
-
-    .thankyou .big-icon {
-      font-size: 64px;
-      margin-bottom: 16px;
-      display: block;
-    }
-
+    .thankyou .big-icon { font-size: 64px; margin-bottom: 16px; display: block; }
     .thankyou h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
       font-size: 28px;
       color: #166534;
       margin-bottom: 10px;
     }
-
     .thankyou p {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
       font-size: 15px;
       color: #4b7a55;
-      line-height: 1.7;
+      line-height: 1.75;
     }
 
-    /* Google Calendar button */
+    /* ── Google Calendar button ── */
     #gcal-btn {
       display: inline-block;
       margin-top: 24px;
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(34, 197, 94, 0.35);
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(34,197,94,0.32);
       color: #16a34a;
       text-decoration: none;
-      font-size: 15px;
-      font-family: inherit;
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
       letter-spacing: 0.5px;
       padding: 12px 28px;
       border-radius: 50px;
       transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
     }
     #gcal-btn:hover {
-      background: rgba(34, 197, 94, 0.12);
-      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.2);
+      background: rgba(34,197,94,0.1);
+      box-shadow: 0 6px 20px rgba(34,197,94,0.2);
       transform: translateY(-2px);
     }
 
-    /* Error */
+    /* ── Error ── */
     .error-msg {
       display: none;
+      font-family: 'Lato', sans-serif;
       color: #dc2626;
       font-size: 13px;
       margin-top: 10px;
       text-align: center;
     }
 
-    /* Back link */
+    /* ── Back link ── */
     .back {
-      margin-top: 20px;
-      font-size: 15px;
+      margin-top: 22px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
       color: #16a34a;
       text-decoration: none;
       letter-spacing: 0.5px;
-      padding: 12px 28px;
+      padding: 12px 30px;
       border-radius: 50px;
-      border: 1.5px solid rgba(34, 197, 94, 0.4);
-      background: rgba(255, 255, 255, 0.65);
+      border: 1.5px solid rgba(34,197,94,0.35);
+      background: rgba(255,255,255,0.68);
       backdrop-filter: blur(8px);
       transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
       display: inline-block;
     }
-
     .back:hover {
-      background: rgba(34, 197, 94, 0.1);
-      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.2);
+      background: rgba(34,197,94,0.09);
+      box-shadow: 0 6px 20px rgba(34,197,94,0.18);
       transform: translateY(-2px);
     }
 
     @media (max-width: 560px) {
-      .card {
-        padding: 36px 24px;
-      }
+      .card { padding: 36px 24px; }
     }
   </style>
 </head>
-
 <body>
 
-  <canvas id="petals"></canvas>
+<!-- Ambient blobs -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
 
-  <div class="page">
-    <div class="card">
+<canvas id="petals"></canvas>
 
-      <!-- Header -->
-      <div class="card-header">
-        <span class="icon">🌸</span>
-        <h1>Zorina's Birthday</h1>
-        <p>Saturday, April 25 · 2:00–4:00 PM<br />Stepping Stones Museum, Norwalk CT</p>
-        <a class="map-link" href="https://maps.app.goo.gl/sVGBiFK8CGGXWrJU9" target="_blank">📍 View on Google Maps</a>
-        <span class="deadline">🌿 RSVP by April 22</span>
-      </div>
+<div class="page">
+  <div class="card">
 
-      <!-- Form -->
-      <form id="rsvp-form">
-
-        <div class="field">
-          <label for="name">Your Name</label>
-          <input type="text" id="name" name="name" placeholder="Full name" required />
-        </div>
-
-        <div class="field">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" required />
-        </div>
-
-        <div class="field">
-          <label>Will you attend?</label>
-          <div class="radio-group">
-            <div class="radio-opt yes">
-              <input type="radio" id="yes" name="attending" value="Yes" required />
-              <label for="yes">✅ Yes, I'll be there!</label>
-            </div>
-            <div class="radio-opt no">
-              <input type="radio" id="no" name="attending" value="No" />
-              <label for="no">😔 Sorry, can't make it</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="field" id="group-field">
-          <label for="group">Number of guests (including you)</label>
-          <input type="number" id="group" name="group_size" min="1" max="10" placeholder="e.g. 2" />
-        </div>
-
-        <button type="submit" class="btn" id="submit-btn">🌸 Send My RSVP</button>
-        <div class="error-msg" id="error-msg">Something went wrong. Please try again.</div>
-      </form>
-
-      <!-- Thank-you (shown after submit) -->
-      <div class="thankyou" id="thankyou">
-        <span class="big-icon" id="thankyou-icon">🌸</span>
-        <h2 id="thankyou-title">See you there!</h2>
-        <p id="thankyou-msg">
-          Thanks for your RSVP! We can't wait to celebrate<br />
-          with you on April 25. 🎂
-        </p>
-        <a id="gcal-btn"
-           href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Zorina%27s+Birthday+Party+%F0%9F%8E%82&dates=20260425T180000Z%2F20260425T200000Z&details=Come+celebrate+Zorina%27s+birthday!+We+can%27t+wait+to+see+you.+%F0%9F%8E%82&location=Stepping+Stones+Museum%2C+303+West+Ave%2C+Norwalk%2C+CT+06850"
-           target="_blank"
-           style="display:none;">
-          📅 Add to Google Calendar
-        </a>
-      </div>
-
+    <!-- Header -->
+    <div class="card-header">
+      <span class="icon">🌸</span>
+      <h1>Zorina's Birthday</h1>
+      <p class="meta">Saturday, April 25 &nbsp;·&nbsp; 2:30 – 4:30 PM<br/>Stepping Stones Museum, Norwalk CT</p>
+      <a class="map-link" href="https://maps.app.goo.gl/sVGBiFK8CGGXWrJU9" target="_blank">📍 View on Google Maps</a><br/>
+      <span class="deadline">🌿 RSVP by April 22</span>
     </div>
 
-    <a href="index.html" class="back">← Back to Zorina's Birthday Page</a>
+    <!-- Party info -->
+    <div class="party-info">
+      <p class="intro">We're so excited to celebrate Zorina's birthday with you! 🎉<br/>
+      You're welcome to arrive early and enjoy Stepping Stones before the party begins.</p>
+      <ul class="schedule">
+        <li><span class="icon">🕑</span><span><strong>Party Room:</strong> 2:30 – 4:30 PM</span></li>
+        <li><span class="icon">🎂</span><span><strong>Celebration (cake &amp; singing):</strong> around 3:30 PM</span></li>
+        <li><span class="icon">🥤</span><span><strong>Food and drinks</strong> will be provided</span></li>
+      </ul>
+      <p class="outro">Feel free to come early, play, and make a day of it —<br/>we can't wait to see you there!</p>
+    </div>
+
+    <!-- Form -->
+    <form id="rsvp-form">
+      <div class="field">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="Full name" required />
+      </div>
+      <div class="field">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      </div>
+      <div class="field">
+        <label>Will you attend?</label>
+        <div class="radio-group">
+          <div class="radio-opt yes">
+            <input type="radio" id="yes" name="attending" value="Yes" required />
+            <label for="yes">✅ Yes, I'll be there!</label>
+          </div>
+          <div class="radio-opt no">
+            <input type="radio" id="no" name="attending" value="No" />
+            <label for="no">😔 Sorry, can't make it</label>
+          </div>
+        </div>
+      </div>
+      <div class="field" id="group-field">
+        <label for="group">Number of guests (including you)</label>
+        <input type="number" id="group" name="group_size" min="1" max="10" placeholder="e.g. 2" />
+      </div>
+      <button type="submit" class="btn" id="submit-btn">🌸 &nbsp;Send My RSVP</button>
+      <div class="error-msg" id="error-msg">Something went wrong. Please try again.</div>
+    </form>
+
+    <!-- Thank-you -->
+    <div class="thankyou" id="thankyou">
+      <span class="big-icon" id="thankyou-icon">🌸</span>
+      <h2 id="thankyou-title">See you there!</h2>
+      <p id="thankyou-msg">Thanks for your RSVP! We can't wait to celebrate<br/>with you on April 25. 🎂</p>
+      <a id="gcal-btn"
+         href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Zorina%27s+Birthday+Party+%F0%9F%8E%82&dates=20260425T183000Z%2F20260425T203000Z&details=Come+celebrate+Zorina%27s+birthday!+%F0%9F%8E%82%0A%0A%F0%9F%95%91+Party+Room%3A+2%3A30+%E2%80%93+4%3A30+PM%0A%F0%9F%8E%82+Celebration+%28cake+%26+singing%29%3A+around+3%3A30+PM%0A%F0%9F%A5%A4+Food+and+drinks+will+be+provided%0A%0AFeel+free+to+come+early+and+make+a+day+of+it+%E2%80%94+we+can%27t+wait+to+see+you+there!&location=Stepping+Stones+Museum%2C+303+West+Ave%2C+Norwalk%2C+CT+06850"
+         target="_blank" style="display:none;">
+        📅 Add to Google Calendar
+      </a>
+    </div>
+
   </div>
 
-  <script>
-    /* ── Falling petals ── */
-    (function () {
-      const canvas = document.getElementById('petals');
-      const ctx = canvas.getContext('2d');
-      let petals = [];
-      const colors = ['#fbb6ce','#f9a8d4','#fbcfe8','#ffffff','#bbf7d0','#86efac','#fde68a','#bae6fd','#fecdd3'];
+  <a href="index.html" class="back">← Back to Zorina's Birthday Page</a>
+</div>
 
-      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-
-      function createPetal(randomY) {
-        return {
-          x: Math.random() * canvas.width,
-          y: randomY ? Math.random() * canvas.height : -20,
-          size: Math.random() * 9 + 4,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          speed: Math.random() * 0.9 + 0.4,
-          drift: (Math.random() - 0.5) * 0.7,
-          angle: Math.random() * Math.PI * 2,
-          angleSpeed: (Math.random() - 0.5) * 0.03,
-          opacity: Math.random() * 0.5 + 0.35
-        };
-      }
-
-      function init() {
-        petals = [];
-        for (let i = 0; i < 65; i++) petals.push(createPetal(true));
-      }
-
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        petals.forEach((p, i) => {
-          p.y += p.speed;
-          p.x += p.drift + Math.sin(p.y * 0.018) * 0.6;
-          p.angle += p.angleSpeed;
-          if (p.y > canvas.height + 20) petals[i] = createPetal(false);
-          ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.angle);
-          ctx.globalAlpha = p.opacity;
-          ctx.beginPath();
-          ctx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
-          ctx.fill();
-          ctx.restore();
-        });
-        requestAnimationFrame(draw);
-      }
-
-      resize(); init(); draw();
-      window.addEventListener('resize', () => { resize(); init(); });
-    })();
-
-    /* ── Show / hide group size ── */
-    document.querySelectorAll('input[name="attending"]').forEach(radio => {
-      radio.addEventListener('change', () => {
-        const field = document.getElementById('group-field');
-        const groupInput = document.getElementById('group');
-        if (radio.value === 'Yes') {
-          field.classList.add('visible');
-          groupInput.required = true;
-        } else {
-          field.classList.remove('visible');
-          groupInput.required = false;
-          groupInput.value = '';
-        }
+<script>
+  /* ── Falling petals ── */
+  (function () {
+    const canvas = document.getElementById('petals');
+    const ctx = canvas.getContext('2d');
+    let petals = [];
+    const colors = ['#fbb6ce','#f9a8d4','#fbcfe8','#fff','#bbf7d0','#86efac','#fde68a','#bae6fd','#fecdd3'];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    function createPetal(ry) {
+      return {
+        x: Math.random() * canvas.width,
+        y: ry ? Math.random() * canvas.height : -20,
+        size: Math.random() * 9 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speed: Math.random() * 0.9 + 0.4,
+        drift: (Math.random() - 0.5) * 0.7,
+        angle: Math.random() * Math.PI * 2,
+        angleSpeed: (Math.random() - 0.5) * 0.03,
+        opacity: Math.random() * 0.5 + 0.3
+      };
+    }
+    function init() { petals = []; for (let i = 0; i < 65; i++) petals.push(createPetal(true)); }
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach((p, i) => {
+        p.y += p.speed; p.x += p.drift + Math.sin(p.y * 0.018) * 0.6; p.angle += p.angleSpeed;
+        if (p.y > canvas.height + 20) petals[i] = createPetal(false);
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle); ctx.globalAlpha = p.opacity;
+        ctx.beginPath(); ctx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2);
+        ctx.fillStyle = p.color; ctx.fill(); ctx.restore();
       });
-    });
+      requestAnimationFrame(draw);
+    }
+    resize(); init(); draw();
+    window.addEventListener('resize', () => { resize(); init(); });
+  })();
 
-    /* ── Form submit via Formspree ── */
-    const form = document.getElementById('rsvp-form');
-    const btn = document.getElementById('submit-btn');
-    const errMsg = document.getElementById('error-msg');
-    const thankyou = document.getElementById('thankyou');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
-      errMsg.style.display = 'none';
-
-      const data = new FormData(form);
-
-      try {
-        const res = await fetch('https://formspree.io/f/mqeydqar', {
-          method: 'POST',
-          body: data,
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (res.ok) {
-          const attending = data.get('attending') === 'Yes';
-          form.style.display = 'none';
-          thankyou.style.display = 'block';
-          if (attending) {
-            document.getElementById('gcal-btn').style.display = 'inline-block';
-          } else {
-            document.getElementById('thankyou-icon').textContent = '💌';
-            document.getElementById('thankyou-title').textContent = 'Thanks for letting us know!';
-            document.getElementById('thankyou-msg').innerHTML =
-              'We\'ll miss you! Wishing you all the best. 💚';
-          }
-        } else {
-          throw new Error('server error');
-        }
-      } catch {
-        btn.disabled = false;
-        btn.textContent = '🌸 Send My RSVP';
-        errMsg.style.display = 'block';
+  /* ── Show / hide group size ── */
+  document.querySelectorAll('input[name="attending"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const field = document.getElementById('group-field');
+      const groupInput = document.getElementById('group');
+      if (radio.value === 'Yes') {
+        field.classList.add('visible');
+        groupInput.required = true;
+      } else {
+        field.classList.remove('visible');
+        groupInput.required = false;
+        groupInput.value = '';
       }
     });
-  </script>
+  });
+
+  /* ── Form submit via Formspree ── */
+  const form    = document.getElementById('rsvp-form');
+  const btn     = document.getElementById('submit-btn');
+  const errMsg  = document.getElementById('error-msg');
+  const thankyou = document.getElementById('thankyou');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    errMsg.style.display = 'none';
+    const data = new FormData(form);
+    try {
+      const res = await fetch('https://formspree.io/f/mqeydqar', {
+        method: 'POST', body: data, headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        const attending = data.get('attending') === 'Yes';
+        form.style.display = 'none';
+        thankyou.style.display = 'block';
+        if (attending) {
+          document.getElementById('gcal-btn').style.display = 'inline-block';
+        } else {
+          document.getElementById('thankyou-icon').textContent = '💌';
+          document.getElementById('thankyou-title').textContent = 'Thanks for letting us know!';
+          document.getElementById('thankyou-msg').innerHTML = "We'll miss you! Wishing you all the best. 💚";
+        }
+      } else { throw new Error('server error'); }
+    } catch {
+      btn.disabled = false;
+      btn.textContent = '🌸 Send My RSVP';
+      errMsg.style.display = 'block';
+    }
+  });
+</script>
 
 </body>
-
 </html>
